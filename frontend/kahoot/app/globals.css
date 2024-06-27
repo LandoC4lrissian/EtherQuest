@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.connectButton {
+    width: 12rem; /* 48 */
+    height: 3rem; /* 12 */
+    background-color: #CC8677;
+    border-radius: 0.5rem; /* lg */
+    font-size: 1rem; /* lg */
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.customConnectButton {  
+    width: 12rem; /* 48 */
+    height: 3rem; /* 12 */
+    background-color: #CC8677;
+    border-radius: 0.5rem; /* lg */
+    font-size: 1rem; /* lg */
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.customNavConnectButton {
+    color: black;
+    width: 10rem; /* 40/4 = 10rem */
+    height: 2.5rem; /* 10/4 = 2.5rem */
+    border-radius: 0.75rem; /* 12px = 0.75rem */
+    background-color: white;
+    opacity: 0.8;
+    font-size: 1rem; /* 16px = 1rem */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+.customNavConnectButton:hover {
+    opacity: 1;
+}
+.customNavConnectButton:active {
+    transform: scale(0.95);
+}
