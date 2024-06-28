@@ -17,14 +17,9 @@ const CreateQuestions = () => {
 
   useEffect(() => {
     const address = localStorage.getItem("quizContractAddress");
-    const count = localStorage.getItem("questionCount");
 
     if (address) {
       setQuizContractAddress(address);
-    }
-
-    if (count) {
-      setQuestionCount(Number(count));
     }
   }, []);
 
@@ -39,7 +34,6 @@ const CreateQuestions = () => {
   // addQuestion fonksiyonu çağırılacak 1 soru 4 cevap ve doğru cevap numarası alacak
   async function addQuestion() {
     const formattedAddress = formatAddress(quizContractAddress);
-    console.log("Formatted Address:", formattedAddress);
 
     // Parametrelerin geçerliliğini kontrol edin
     if (!question) {
@@ -88,12 +82,22 @@ const CreateQuestions = () => {
   console.log("Question Count:", questionCount);
   console.log("Question:", question);
   console.log("Answers:", answers);
-  console.log("Correct Answer:", correctAnswer);
+
+  const copyToClipboard = (text: any) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert("Copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
+  };
 
   return (
     <div className="bg-gradient-to-r from-violet-600 to-indigo-600 min-h-screen">
-      <div className="flex justify-center items-center pt-44">
-        <form className="w-[750px] h-[600px] bg-orange-300 border-black border-2 rounded-2xl flex flex-col space-y-4 justify-center items-center">
+      <div className="flex justify-center items-center pt-36 flex-col space-y-4 pb-8">
+        <div className="w-[750px] h-[600px] bg-orange-300 border-black border-2 rounded-2xl flex flex-col space-y-4 justify-center items-center">
           <h1 className="text-4xl font-bold">Add Your Questions</h1>
           <div className="flex flex-col justify-center items-center space-y-6">
             <textarea
@@ -133,15 +137,26 @@ const CreateQuestions = () => {
               onChange={(e) => setCorrectAnswer(Number(e.target.value))}
             />
           </div>
-        </form>
-        <motion.button
-          className="w-64 h-8 bg-slate-600 rounded-xl font-bold"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => addQuestion()}
-        >
-          Add Question
-        </motion.button>
+          <motion.button
+            className="w-64 h-12 bg-gradient-to-r from-violet-200 to-violet-700 rounded-xl font-bold text-xl"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => addQuestion()}
+          >
+            Add Question
+          </motion.button>
+        </div>
+        <div className="w-[750px] h-36 flex-col bg-orange-300 border-black border-2 rounded-2xl flex justify-center items-center space-y-8">
+          <h1 className="flex justify-center font-bold text-xl">
+            Your Quiz Contract Address
+          </h1>
+          <h1
+            className="flex justify-center font-bold text-xl cursor-pointer"
+            onClick={() => copyToClipboard(quizContractAddress)}
+          >
+            {quizContractAddress}
+          </h1>
+        </div>
       </div>
     </div>
   );

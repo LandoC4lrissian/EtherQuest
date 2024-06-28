@@ -13,7 +13,7 @@ const CreateQuiz = () => {
   const { address } = useAccount();
   const [questionCount, setQuestionCount] = useState(0);
   const [ethAmount, setEthAmount] = useState<number>(0);
-  const factoryAddress = "0x9608d2dc1bcf8a4946648dc5d8ab82f21821cd4a";
+  const factoryAddress = "0xd60dc6d225acbf3dcff3fd8da23cfe2d5e2dd662";
   const router = useRouter();
   const [isFirstRender, setIsFirstRender] = useState(true);
 
@@ -27,7 +27,6 @@ const CreateQuiz = () => {
       value: price,
     });
   }
-  console.log(questionCount);
 
   const {
     data: quizContractAddresses,
@@ -57,8 +56,6 @@ const CreateQuiz = () => {
     },
   });
 
-  console.log(quizContractAddresses);
-
   useEffect(() => {
     if (isFirstRender) {
       setIsFirstRender(false);
@@ -74,21 +71,16 @@ const CreateQuiz = () => {
       // 18 saniye bekle ve refetch
       await new Promise(resolve => setTimeout(resolve, 18000));
       const refetchResult1 = await refetch();
-      console.log("18 saniye sonra refetch result:", refetchResult1.data);
   
       // 5 saniye bekle ve tekrar refetch
       await new Promise(resolve => setTimeout(resolve, 5000));
       const refetchResult2 = await refetch();
-      console.log("5 saniye sonra tekrar refetch result:", refetchResult2.data);
   
       // Refetch işlemlerinden sonra kontrat adreslerini kontrol et ve güncelle
       const quizContractAddresses = refetchResult2.data;
       if (quizContractAddresses && quizContractAddresses.length > 0) {
         const newQuizContractAddress = quizContractAddresses[quizContractAddresses.length - 1];
         localStorage.setItem("quizContractAddress", newQuizContractAddress);
-        localStorage.setItem("questionCount", questionCount.toString());
-  
-        console.log("Yeni Quiz Kontrat Adresi:", newQuizContractAddress);
   
         // Yönlendirme işlemi
         router.push("/pages/createQuiz/createQuestions");
@@ -111,13 +103,7 @@ const CreateQuiz = () => {
           <h1 className="text-4xl font-bold pb-16">Create Your Quiz</h1>
           <div className="flex flex-col justify-center items-center space-y-6">
             <input
-              type="number"
-              className="w-[400px] h-8 rounded-xl border-black border-2"
-              placeholder="Questions Count"
-              onChange={(e) => setQuestionCount(Number(e.target.value))}
-            />
-            <input
-              className="w-[400px] h-8 rounded-xl border-black border-2"
+              className="w-[400px] h-16 rounded-xl border-black border-2 text-xl"
               type="number"
               placeholder="Min 0.01 ETH"
               step="0.01"
@@ -126,20 +112,12 @@ const CreateQuiz = () => {
           </div>
         </form>
         <motion.button
-          className="w-64 h-8 bg-slate-600 rounded-xl font-bold mt-12"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => createQuizContract({ ethAmount })}
-        >
-          Create Quiz
-        </motion.button>
-        <motion.button
-          className="w-64 h-8 bg-slate-600 rounded-xl font-bold mt-12"
+          className="w-64 h-12 bg-gradient-to-r from-violet-200 to-violet-700 rounded-xl font-bold text-xl mt-8"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => handleCreateQuiz()}
         >
-          deneme
+          Create Quiz
         </motion.button>
       </div>
     </div>
